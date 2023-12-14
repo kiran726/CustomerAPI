@@ -8,6 +8,9 @@
 </head>
 <body>
     <h2>Login</h2>
+     <div th:if="${msg != null}" th:text="${msg}" class="text-warning">
+        <!-- This block will be rendered if myAttribute is not null -->
+    </div>
 <form class="form-inline" action="/authenticate" method="post">
   <div class="form-group mb-2">
     <label for="Login Id" class="sr-only">Email</label>

@@ -77,31 +77,31 @@ public class CustomerService {
 		}
 		return "";
 	}
-	
-	
+
+
 	public LinkedTreeMap<String, String> selectCustomer(String token,String uuid) {
-		 ResponseEntity<String> response=getCustomerList(token);
-	     String resp=response.getBody();
-	     Gson gson=new Gson();
+		ResponseEntity<String> response=getCustomerList(token);
+		String resp=response.getBody();
+		Gson gson=new Gson();
 		ArrayList<LinkedTreeMap<String,String>> customerList=gson.fromJson(resp,ArrayList.class);
-		CustomerRecord out=null;
 		Optional<Object> value= customerList.stream()
-		.filter(cust->cust.get("uuid").equals(uuid))
-		.findFirst()
-		.map(cust->cust);
+				.filter(cust->cust.get("uuid").equals(uuid))
+				.findFirst()
+				.map(cust->cust);
+
 		if(value.isPresent()) {
 			LinkedTreeMap<String,String> outfinal=(LinkedTreeMap<String, String>) value.get();
 			return outfinal;
 		}
 		return null; 
 	}
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 	private static HttpRequest.BodyPublisher buildJsonFromMap(Map<String, String> data) {
 		var builder = new StringBuilder();
 		builder.append("{");
@@ -113,7 +113,7 @@ public class CustomerService {
 		return HttpRequest.BodyPublishers.ofString(builder.toString());
 	}
 
-	public String updateCustomer(String token, CustomerRecord customerRecord) {
+	public void updateCustomer(String token, CustomerRecord customerRecord) {
 		Map<String, String> requestBody = new HashMap<>();
 		requestBody.put("first_name", customerRecord.firstName());
 		requestBody.put("last_name", customerRecord.lastName());
@@ -134,13 +134,8 @@ public class CustomerService {
 
 		try {
 			HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-			System.out.println("Response Status Code: " + response.statusCode());
-			System.out.println("Response Body: " + response.body());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-		return "";
-
-		
+		}		
 	}
 }
