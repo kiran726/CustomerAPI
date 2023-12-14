@@ -137,7 +137,12 @@ public class CustomerController {
 			// Handle the case where the user is not authenticated
 			return "redirect:/login";
 		}
+		try {
 		customerService.updateCustomer(token, customerDTO);
+		}
+		catch(Exception e) {
+			return "redirect:/customer-list";
+		}
 		return "redirect:/customer-list";
 	}
 
